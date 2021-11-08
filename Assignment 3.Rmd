@@ -1,14 +1,13 @@
 ---
 title: "Assignment 3"
-output: html_document
-pdf_document
-default html_notebook: default html_document: df_print: paged lang:
-no-NB bibliography: references.bib
-data/\*\* .Rproj
+output: 
+  pdf_document: default
+  html_notebook: default
+  html_document: default 
+    df_print: paged
+  lang: no-NB 
+  bibliography: references.bib
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 
