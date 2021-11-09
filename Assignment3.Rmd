@@ -9,7 +9,3 @@ lang: no-NB
 
 bibliography: references.bib
 
-```{r}
-1+1
-```
-
