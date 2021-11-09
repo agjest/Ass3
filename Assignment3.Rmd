@@ -1,7 +1,9 @@
 ---
 title: "Assignment 3"
 output: 
+  pdf_document: default
   html_document: default 
+  df_print: paged
 lang: no-NB 
 ---
 
