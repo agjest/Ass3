@@ -19,7 +19,7 @@ library(gapminder)
 The file ddf_concepts.cvs contains descriptions of a set of different variables including unemployment rate, adults with hiv, labour force participation, aid, causes of deaths, cell phones, cars, health factors, countries GDP etc. Each of the 600 variables further includes data. 
 
 # 2
-
+The file ddf--entities--geo--country.csv contains information of all the countries in the world where each country is categorized based on g77 and OECD, income groups, latitude, longitude and region (Europe and world).
 
 # 4
 The gapminder dataset consist of 1704 rows and includes the following variables:
