@@ -9,3 +9,35 @@ lang: no-NB
 
 bibliography: references.bib
 
+```{r}
+library(tidyverse)
+library(readr)
+library(gapminder)
+```
+
+# 1 
+The file ddf_concepts.cvs contains descriptions of a set of different variables including unemployment rate, adults with hiv, labour force participation, aid, causes of deaths, cell phones, cars, health factors, countries GDP etc. Each of the 600 variables further includes data. 
+
+# 2
+
+
+# 4
+The gapminder dataset consist of 1704 rows and includes the following variables:
+
+- Country 
+- Continent 
+- Year
+- LifeExp
+- Pop
+- gdpPercap
+
+Australia and New Zealand is assigned to Asia.
+
+# 5 
+
+
+```{r}
+g_c <- read_csv ("Data/ddf--gapminder--systema_globalis-master/ddf--entities--geo--country.csv")
+print(g_c)
+```
+
