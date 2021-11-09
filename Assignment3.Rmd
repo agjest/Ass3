@@ -19,7 +19,12 @@ library(gapminder)
 The file ddf_concepts.cvs contains descriptions of a set of different variables including unemployment rate, adults with hiv, labour force participation, aid, causes of deaths, cell phones, cars, health factors, countries GDP etc. Each of the 600 variables further includes data. 
 
 # 2
-The file ddf--entities--geo--country.csv contains information of all the countries in the world where each country is categorized based on g77 and OECD, income groups, latitude, longitude and region (Europe and world).
+
+The file ddf--entities--geo--country.csv contains information of all the countries in the world where each country is categorized based on g77 and OECD, UN members/recognition, income groups, religion, latitude, longitude and region (Europe and world).
+
+# 3
+
+df--entities--geo--un_sdg_region.csv contains information about UN recognized regions. 
 
 # 4
 The gapminder dataset consist of 1704 rows and includes the following variables:
@@ -36,8 +41,4 @@ Australia and New Zealand is assigned to Asia.
 # 5 
 
 
-```{r}
-g_c <- read_csv ("Data/ddf--gapminder--systema_globalis-master/ddf--entities--geo--country.csv")
-print(g_c)
-```
 
