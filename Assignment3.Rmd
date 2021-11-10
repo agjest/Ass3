@@ -40,5 +40,15 @@ Australia and New Zealand is assigned to Asia.
 
 # 5 
 
+## mangler noe her:
 
+```{r}
+library(readr)
+g_c <- read_csv("Data/ddf--entities--geo--country.csv")
+print(g_c)
+```
+
+```{r}
+spec(g_c)
+```
 
