@@ -52,3 +52,43 @@ print(g_c)
 spec(g_c)
 ```
 
+
+**nederste må fikses, skjønner ikke hva som er feil**
+
+```{r}
+g_c <- g_c %>%
+  mutate(continent = case_when(
+     world_4region == "asia" & un_sdg_region %in% c("un_australia_and_new_zealand", "un_oceania_exc_australia_and_new_zealand") ~ "Oceania",
+    world_4region ==  "asia" & !(un_sdg_region %in% c("un_australia_and_new_zealand", "un_oceania_exc_australia_and_new_zealand")) ~ "Asia",
+    world_4region == "africa" ~ "Africa",
+    world_4region == "americas" ~ "Americas",
+    world_4region ==  "europe" ~ "Europe")
+  ) %>%
+ filter(!is.na(iso3166_1_alpha3))
+```
+
+# 6a 
+
+```{r}
+length(unique(g_c$country))
+```
+
+After filtrating the data from #5, are we left with 247 countries. 
+
+# 6b
+
+**sjekk faretrekant** 
+
+```{r}
+g_c %>%
+  group_by(continent) %>%
+  summarise(countries = length(unique(country)))
+```
+There are now a number of:
+
+- 59 countries in Africa
+- 55 countries in Americas
+- 47 countries in Europe
+- 28 countries in Oceania
+
+
