@@ -9,7 +9,7 @@ lang: no-NB
 
 bibliography: references.bib
 
-```{r}
+```{r - Library}
 library(tidyverse)
 library(readr)
 library(gapminder)
@@ -41,12 +41,14 @@ Australia and New Zealand is assigned to Asia.
 # 5 
 
 ## mangler noe her:
+## Tror ikke vi trenger å ha med *readr* her ettersom den er lengre oppe. 
 
 ```{r}
 library(readr)
 g_c <- read_csv("Data/ddf--entities--geo--country.csv")
 print(g_c)
 ```
+
 
 ```{r}
 spec(g_c)
