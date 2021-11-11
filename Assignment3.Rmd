@@ -118,7 +118,7 @@ length(unique(lifeExp$geo))
 ```{r}
 g_c <- g_c %>% 
   select (country, name, iso3166_1_alpha3, un_sdg_region, world_4region, continent, world_6region) %>% 
-  left_join(lifeExp, by = c("country" = "geo"))
+  left_join(lifeExp, by = c("country" = "geo")) 
 names(g_c)
 ```
 
@@ -127,23 +127,24 @@ names(g_c)
 ## Er dette riktig? 
 
 ```{r}
-lifeExp <- lifeExp %>% 
-  group_by(geo)
-summarise(min_year)
-table(lifeExp)
+g_c_min <- g_c %>% 
+  group_by(country) %>% 
+  summarise(min_year = min(year))
+table(g_c_min$min_year)
 ```
+
+The observation is that 186 countries has data on **life expectancy years** from 1800 whereas only nine countries has data on **life expectancy years** from 1950. 
+
+# 11
 
 ```{r}
-g_c <- g_C %>% 
-group_by(country)
-summarise()
+g_c_min %>% 
+filter(min_year == "1950-01-01")
 ```
+ 
+The nine countries that only have life expectancy data from 1950 are displayed in the table above. 
 
-
-```{r}
-
-```
-
+# 12 
 
 
 
