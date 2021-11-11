@@ -111,9 +111,6 @@ names(lifeExp)
 ```{r - Info about LifeExp}
 length(unique(lifeExp$geo))
 ```
-```{r}
-Sys.setenv('R_MAX_VSIZE'=32000000000)
-```
 
 
 # 9 
