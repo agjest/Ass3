@@ -146,5 +146,20 @@ The nine countries that only have life expectancy data from 1950 are displayed i
 
 # 12 
 
+**Kan være noe mer som må addes til denne koden**
+
+```{r}
+library(readr)
+ddf_datapoints_population_total_by_global_time <- read_csv("data/global-regions-datapoints/ddf--datapoints--population_total--by--global--time.csv")
+View(ddf_datapoints_population_total_by_global_time)
+```
+
+```{r}
+spec(ddf_datapoints_population_total_by_global_time)
+```
+
+
+# 13
+
 
 
