@@ -97,7 +97,7 @@ There are now a number of:
 
 # 7
 
-```{r Life Expectancy}
+```{r Country_Expectancy}
 lifeExp <- read_csv("data/countries-etc-datapoints/ddf--datapoints--life_expectancy_years--by--geo--time.csv",
 col_types = cols(time = col_date(format ="%Y")))
 lifeExp <- lifeExp %>%
@@ -124,9 +124,26 @@ names(g_c)
 
 # 10 
 
+## Er dette riktig? 
+
+```{r}
+lifeExp <- lifeExp %>% 
+  group_by(geo)
+summarise(min_year)
+table(lifeExp)
+```
+
+```{r}
+g_c <- g_C %>% 
+group_by(country)
+summarise()
+```
+
+
 ```{r}
 
 ```
+
 
 
 
