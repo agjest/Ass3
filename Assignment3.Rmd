@@ -167,12 +167,23 @@ g_c <- g_c %>%
 rm(pop)
 ```
 
-```{r}
-rlang::last_error()
-```
-
 
 # 13
+
+```{r}
+library(readr)
+gdp_pc <- read_csv("data/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv")
+View(ddf_datapoints_gdppercapita_us_inflation_adjusted_by_geo_time)
+```
+
+```{r}
+spec(gdp_pc)
+```
+
+```{r}
+g_c <- g_c %>% 
+  left_join(gdp_pc, by = c("country" = "geo", "year" = "time")))
+```
 
 
 
