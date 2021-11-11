@@ -13,6 +13,7 @@ bibliography: references.bib
 library(tidyverse)
 library(readr)
 library(gapminder)
+library(magrittr)
 ```
 
 # 1 
@@ -94,5 +95,23 @@ There are now a number of:
 - 28 countries in Oceania
 
 # 7
+
+```{r Life Expectancy}
+lifeExp <- read_csv("data/countries-etc-datapoints/ddf--datapoints--life_expectancy_years--by--geo--time.csv",
+col_types = cols(time = col_date(format ="%Y")))
+lifeExp <- lifeExp %>%
+rename(year = time)
+length(unique(lifeExp$geo))
+names(lifeExp)
+```
+
+# 8
+
+```{r - Info about LifeExp}
+length(unique(lifeExp$geo))
+```
+
+
+
 
 
