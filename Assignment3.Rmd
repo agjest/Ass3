@@ -14,6 +14,7 @@ library(tidyverse)
 library(readr)
 library(gapminder)
 library(magrittr)
+library(dplyr)
 ```
 
 # 1 
@@ -110,8 +111,25 @@ names(lifeExp)
 ```{r - Info about LifeExp}
 length(unique(lifeExp$geo))
 ```
+```{r}
+Sys.setenv('R_MAX_VSIZE'=32000000000)
+```
 
 
+# 9 
+
+```{r}
+g_c <- g_c %>% 
+  select (country, name, iso3166_1_alpha3, un_sdg_region, world_4region, continent, world_6region) %>% 
+  left_join(lifeExp, by = c("country" = "geo"))
+names(g_c)
+```
+
+# 10 
+
+```{r}
+
+```
 
 
 
