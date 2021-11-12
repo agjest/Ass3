@@ -15,6 +15,8 @@ library(readr)
 library(gapminder)
 library(magrittr)
 library(dplyr)
+options(scipen 
+        = 999)
 ```
 
 # 1 
@@ -98,39 +100,74 @@ There are now a number of:
 # 7
 
 ```{r Country_Expectancy}
-lifeExp <- read_csv("data/countries-etc-datapoints/ddf--datapoints--life_expectancy_years--by--geo--time.csv",
-col_types = cols(time = col_date(format ="%Y")))
+lifeExp <- read_csv(
+  "data/countries-etc-datapoints/ddf--datapoints--life_expectancy_years--by--geo--time.csv", 
+col_types = cols(
+    time = col_date(
+      format ="%Y"
+      )))
 lifeExp <- lifeExp %>%
-rename(year = time)
-length(unique(lifeExp$geo))
-names(lifeExp)
+rename(
+  year = time)
+length(
+  unique(
+    lifeExp$geo
+    ))
+names(
+  lifeExp
+  )
 ```
+
+## skriv inn tekst her
 
 # 8
 
 ```{r - Info about LifeExp}
-length(unique(lifeExp$geo))
+length(
+  unique(
+    lifeExp$geo
+    ))
 ```
+
+## skriv inn tekst her 
+
 
 
 # 9 
 
 ```{r}
 g_c <- g_c %>% 
-  select (country, name, iso3166_1_alpha3, un_sdg_region, world_4region, continent, world_6region) %>% 
-  left_join(lifeExp, by = c("country" = "geo")) 
-names(g_c)
+  select (
+    country, name, iso3166_1_alpha3, un_sdg_region, world_4region, continent, world_6region
+    ) %>% 
+  left_join(
+    lifeExp, by = c(
+      "country" = "geo"
+      )) 
+names(
+  g_c
+  )
 ```
 
-# 10 
+## Skriv inn tekst her
+
+
+# 10  
 
 ## Er dette riktig? 
 
 ```{r}
 g_c_min <- g_c %>% 
-  group_by(country) %>% 
-  summarise(min_year = min(year))
-table(g_c_min$min_year)
+  group_by(
+    country
+    ) %>% 
+  summarise(
+    min_year = min(
+      year
+))
+table(
+  g_c_min$min_year
+)
 ```
 
 The observation is that 186 countries has data on **life expectancy years** from 1800 whereas only nine countries has data on **life expectancy years** from 1950. 
@@ -149,21 +186,27 @@ The nine countries that only have life expectancy data from 1950 are displayed i
 **Kan være noe mer som må addes til denne koden**
 
 ```{r}
-library(readr)
-pop <- read_csv("data/global-regions-datapoints/ddf--datapoints--population_total--by--global--time.csv")
-View(ddf_datapoints_population_total_by_global_time)
+pop <- read_csv("data/global-regions-datapoints/ddf--datapoints--population_total--by--global--time.csv",
+col_types = cols(
+  time = col_date(
+    format = "%Y"))) 
 ```
+
+
 
 ```{r}
 spec(ddf_datapoints_population_total_by_global_time)
 ```
 
+## tester
 
-**aner ikke hva som er feil her, eller hvordan man gjør det** 
+**aner ikke hva som er feil her, eller hvordan man gjør det**
+
+**Prøvde å gjøre litt forskjellig her, men fikk ikke det heller til. Vet at variabelen "geo" ikke ligger i *pop-datasettet*. Så hvis vi bruker f.eks "global" i steden for "geo" vil det funke**
 
 ```{r}
 g_c <- g_c %>%
-  left_join(pop, by = c("geo", "country", "year" = "time"))
+  left_join(pop, by = c("country" = "geo", "year" = "time"))
 rm(pop)
 ```
 
@@ -172,9 +215,22 @@ rm(pop)
 
 ```{r}
 library(readr)
-gdp_pc <- read_csv("data/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv")
+gdp_pc <- read_csv("data/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv") %>% 
+left_join(g_c$pop) 
+names(g_c)
 View(ddf_datapoints_gdppercapita_us_inflation_adjusted_by_geo_time)
 ```
+## TEST av THIBIGA
+
+```{r}
+gdp_pc <- read_csv("data/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv")
+```
+
+```{r}
+g_c <- g_c %>% 
+left_join(gdp_pc, by = c("country" = "geo", "year" = "time")) 
+```
+
 
 ```{r}
 spec(gdp_pc)
