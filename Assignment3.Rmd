@@ -1,5 +1,6 @@
 ---
 title: "Assignment 3"
+author: Ingrid & Thibiga
 output: 
   pdf_document: default
   html_document: default 
@@ -45,21 +46,24 @@ Australia and New Zealand is assigned to Asia.
 # 5 
 
 ## mangler noe her:
-## Tror ikke vi trenger å ha med *readr* her ettersom den er lengre oppe. 
+## Tror ikke vi trenger å ha med *readr* her ettersom den er lengre oppe.  har fjernet det
 
-```{r}
-library(readr)
+
+```{r - g_c}
 g_c <- read_csv("Data/ddf--entities--geo--country.csv")
 print(g_c)
 ```
+By running the chunk above, only countries with code *aiso3166_1_aplha3* will be included thus the tibble will be named *g_c*.
+ tibbelen navnet "g_c".
 
-
+## hva gjør denne? 
 ```{r}
 spec(g_c)
 ```
 
 
 **nederste må fikses, skjønner ikke hva som er feil**
+
 
 ```{r}
 g_c <- g_c %>%
@@ -138,7 +142,13 @@ length(
 ```{r}
 g_c <- g_c %>% 
   select (
-    country, name, iso3166_1_alpha3, un_sdg_region, world_4region, continent, world_6region
+    country,
+    name, 
+    iso3166_1_alpha3, 
+    un_sdg_region, 
+    world_4region, 
+    continent, 
+    world_6region
     ) %>% 
   left_join(
     lifeExp, by = c(
@@ -147,6 +157,7 @@ g_c <- g_c %>%
 names(
   g_c
   )
+rm(lifeExp)
 ```
 
 ## Skriv inn tekst her
@@ -158,16 +169,9 @@ names(
 
 ```{r}
 g_c_min <- g_c %>% 
-  group_by(
-    country
-    ) %>% 
-  summarise(
-    min_year = min(
-      year
-))
-table(
-  g_c_min$min_year
-)
+  group_by(country) %>% 
+  summarise(min_year = min(year))
+table(g_c_min$min_year)
 ```
 
 The observation is that 186 countries has data on **life expectancy years** from 1800 whereas only nine countries has data on **life expectancy years** from 1950. 
@@ -189,9 +193,8 @@ The nine countries that only have life expectancy data from 1950 are displayed i
 pop <- read_csv("data/global-regions-datapoints/ddf--datapoints--population_total--by--global--time.csv",
 col_types = cols(
   time = col_date(
-    format = "%Y"))) 
+    format = "%Y")))
 ```
-
 
 
 ```{r}
@@ -206,10 +209,22 @@ spec(ddf_datapoints_population_total_by_global_time)
 
 ```{r}
 g_c <- g_c %>%
-  left_join(pop, by = c("country" = "geo", "year" = "time"))
+  left_join(pop, by = c("year" = "time"))
 rm(pop)
 ```
 
+## TEST AV THIBIGA
+## Oki, nå fikk jeg denne til å kjøre. Dermed er det nå 10 variabler. Den 10. variabelen skal egentlig hete "pop", men den heter "population_total".
+```{r}
+pop <- read_csv("data/countries-etc-datapoints/ddf--datapoints--population_total--by--geo--time.csv",
+col_types = cols(time = col_date(format = "%Y")))
+```
+
+```{r}
+g_c <- g_c %>% 
+  left_join(pop, by = c("country" = "geo", "year" = "time"))
+rm(pop)
+```
 
 # 13
 
@@ -219,11 +234,6 @@ gdp_pc <- read_csv("data/countries-etc-datapoints/ddf--datapoints--gdppercapita_
 left_join(g_c$pop) 
 names(g_c)
 View(ddf_datapoints_gdppercapita_us_inflation_adjusted_by_geo_time)
-```
-## TEST av THIBIGA
-
-```{r}
-gdp_pc <- read_csv("data/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv")
 ```
 
 ```{r}
@@ -238,8 +248,85 @@ spec(gdp_pc)
 
 ```{r}
 g_c <- g_c %>% 
-  left_join(gdp_pc, by = c("country" = "geo", "year" = "time")))
+  left_join(pop, by = c("country" = "geo", "year" = "time"))
 ```
 
+
+## TEST av THIBIGA
+## Fikk denne til å kjøre. Men nå har vi 12 variabler i stedet for 9. Muligens forsvinner de variablene vi ikke trenger når vi rydder opp. 
+```{r}
+gdp_pc <- read_csv("data/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv",
+col_types = cols(time = col_date(format = "%Y")))
+```
+
+```{r}
+g_c <- g_c %>% 
+  left_join(gdp_pc, by = c("country" = "geo", "year" = "time"))
+rm(gdp_pc)
+```
+
+## Her jeg endret navnet på population_total.x. Dersom vi rydder, vil den nok endres seg til *population_total*
+
+```{r}
+g_c <- g_c %>% 
+  rename("lifeExp" = "life_expectancy_years") %>% 
+  rename ("pop" = "population_total.x") %>% 
+  rename ("gdpPercap" = "gdppercapita_us_inflation_adjusted" )
+```
+
+```{r}
+names(g_c)
+```
+
+
+# 14 part 1
+
+
+```{r}
+Tabell1 <- paste(c(seq(1800, 2015, by = 5), 2019), 
+ "01-01", sep = "-" )  %>% 
+ parse_date(format = "%Y-%m-%d")
+```
+
+
+```{r}
+g_c_5 <- g_c %>% 
+  filter(year %in% Tabell1) %>% 
+  select(country, name, continent, year, lifeExp, pop, gdpPercap)
+```
+
+
+```{r}
+dim(g_c_5)
+```
+# 14 part 2
+
+fy står for "first year"
+
+```{r}
+g_c_gdp_fy <- g_c_5 %>% 
+  group_by(gdpPercap) %>% 
+  summarise(min_year = min(year)) 
+```
+
+```{r}
+g_c_gdp_fy %>% 
+  count(min_year = g_c_gdp_fy$min_year)
+```
+
+
+
+
+# 15
+
+# 16
+
+# 17
+
+# 18
+
+# 19
+
+# 20
 
 
