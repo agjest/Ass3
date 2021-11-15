@@ -165,8 +165,6 @@ rm(lifeExp)
 
 # 10  
 
-## Er dette riktig? 
-
 ```{r}
 g_c_min <- g_c %>% 
   group_by(country) %>% 
@@ -211,7 +209,6 @@ g_c <- g_c %>%
 rm(gdp_pc)
 ```
 
-## Her jeg endret navnet på population_total.x. Dersom vi rydder, vil den nok endres seg til *population_total*
 
 ```{r}
 g_c <- g_c %>% 
@@ -247,7 +244,7 @@ dim(g_c_5)
 ```
 # 14 part 2
 
-fy står for "first year"
+FY = "first year"
 
 ```{r}
 g_c_gdp_fy <- g_c_5 %>% 
@@ -260,10 +257,16 @@ g_c_gdp_fy %>%
   count(min_year = g_c_gdp_fy$min_year)
 ```
 
-
-
-
 # 15
+
+```{r}
+g_c <- g_c %>% 
+  filter(!is.na(gdpPercap)) %>% 
+  group_by(country) %>% 
+  summarise(nr=n()) %>% 
+  arrange (country)
+```
+
 
 # 16
 
