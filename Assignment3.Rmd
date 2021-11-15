@@ -310,15 +310,63 @@ paste("Number of NAs in my_gapminder_1960 is", dim(m_v)[1], sep = " ")
 ```
 
 
-
 # 17
 
+```{r}
+my_gapminder_1960 %>% 
+filter(year <= "1960-01-01") %>% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,30000)) + theme(legend.position = "bottom")
+```
 
+```{r}
+my_gapminder_1960 %>% 
+filter(year <= "1980-01-01") %>% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,50000)) + theme(legend.position = "bottom")
+```
+
+```{r}
+my_gapminder_1960 %>% 
+filter(year <= "2000-01-01") %>% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,100000)) + theme(legend.position = "bottom")
+```
+
+```{r}
+my_gapminder_1960 %>% 
+filter(year <= "2019-01-01") %>% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,150000)) + theme(legend.position = "bottom")
+```
 
 # 18
 
+```{r}
+my_gapminder_1960 %>% 
+filter(year <= "1960-01-01") %>% 
+  ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,11)) + theme(legend.position = "bottom")
+```
+
+```{r}
+my_gapminder_1960 %>% 
+filter(year <= "1980-01-01") %>% 
+  ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,11)) + theme(legend.position = "bottom")
+```
+
+```{r}
+my_gapminder_1960 %>% 
+filter(year <= "2000-01-01") %>% 
+  ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,12)) + theme(legend.position = "bottom")
+```
+
+```{r}
+my_gapminder_1960 %>% 
+filter(year <= "2019-01-01") %>% 
+  ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,12)) + theme(legend.position = "bottom")
+```
+
 # 19
+
 
 # 20
 
+write.table(g_c, file="my_gapminder.csv", sep = ",")
+write.table(g_c_60, file="my_gapminder_red.csv", sep = ",")
 
