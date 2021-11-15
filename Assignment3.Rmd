@@ -264,13 +264,40 @@ g_c <- g_c %>%
   filter(!is.na(gdpPercap)) %>% 
   group_by(country) %>% 
   summarise(nr=n()) %>% 
-  arrange (country)
+  arrange ((country))
 ```
 
 
+```{r}
+g_c_61 <- g_c %>% 
+  filter(nr == 61)
+```
+
+84 observations
+
 # 16
 
+```{r}
+l_min_y <- g_c_5 %>% 
+filter(!is.na(gdpPercap)) %>% 
+group_by(country) %>% 
+summarise(min_year = min(year))
+```
+
+```{r}
+dim(l_min_y)
+```
+
+```{r}
+l_min_y_60 <- l_min_y$country[l_min_y$min_year == "1960-01-01"]
+my_gapminder_1960 <- g_c_5
+filter(country %in% l_min_y_60)
+```
+
+
 # 17
+
+
 
 # 18
 
