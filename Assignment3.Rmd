@@ -290,10 +290,26 @@ dim(l_min_y)
 
 ```{r}
 l_min_y_60 <- l_min_y$country[l_min_y$min_year == "1960-01-01"]
-my_gapminder_1960 <- g_c_5
+my_gapminder_1960 <- g_c_5 %>% 
 filter(country %in% l_min_y_60)
 ```
-hei hei hei 
+
+```{r}
+dim(my_gapminder_1960)
+```
+
+```{r}
+length(unique(my_gapminder_1960$country))
+```
+```{r}
+(m_v <- my_gapminder_1960[is.na(my_gapminder_1960$gdpPercap) == TRUE,])
+```
+
+```{r}
+paste("Number of NAs in my_gapminder_1960 is", dim(m_v)[1], sep = " ")
+```
+
+
 
 # 17
 
