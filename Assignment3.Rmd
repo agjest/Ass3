@@ -45,25 +45,15 @@ Australia and New Zealand is assigned to Asia.
 
 # 5 
 
-## mangler noe her:
-## Tror ikke vi trenger å ha med *readr* her ettersom den er lengre oppe.  har fjernet det
-
-
-```{r - g_c}
-g_c <- read_csv("Data/ddf--entities--geo--country.csv")
+```{r - gc}
+g_c <- read_csv("data/ddf--entities--geo--country.csv")
 print(g_c)
 ```
+
 By running the chunk above, only countries with code *aiso3166_1_aplha3* will be included thus the tibble will be named *g_c*.
  tibbelen navnet "g_c".
 
-## hva gjør denne? 
-```{r}
-spec(g_c)
-```
-
-
 **nederste må fikses, skjønner ikke hva som er feil**
-
 
 ```{r}
 g_c <- g_c %>%
@@ -90,8 +80,8 @@ After filtrating the data from #5, are we left with 247 countries.
 **sjekk faretrekant** 
 
 ```{r}
-g_c %>%
-  group_by(continent) %>%
+g_c %>% 
+  group_by(continent) %>% 
   summarise(countries = length(unique(country)))
 ```
 There are now a number of:
@@ -134,8 +124,6 @@ length(
 ```
 
 ## skriv inn tekst her 
-
-
 
 # 9 
 
