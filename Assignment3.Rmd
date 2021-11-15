@@ -293,7 +293,7 @@ l_min_y_60 <- l_min_y$country[l_min_y$min_year == "1960-01-01"]
 my_gapminder_1960 <- g_c_5
 filter(country %in% l_min_y_60)
 ```
-
+hei hei hei 
 
 # 17
 
