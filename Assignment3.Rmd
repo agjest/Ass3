@@ -187,34 +187,6 @@ The nine countries that only have life expectancy data from 1950 are displayed i
 
 # 12 
 
-**Kan være noe mer som må addes til denne koden**
-
-```{r}
-pop <- read_csv("data/global-regions-datapoints/ddf--datapoints--population_total--by--global--time.csv",
-col_types = cols(
-  time = col_date(
-    format = "%Y")))
-```
-
-
-```{r}
-spec(ddf_datapoints_population_total_by_global_time)
-```
-
-## tester
-
-**aner ikke hva som er feil her, eller hvordan man gjør det**
-
-**Prøvde å gjøre litt forskjellig her, men fikk ikke det heller til. Vet at variabelen "geo" ikke ligger i *pop-datasettet*. Så hvis vi bruker f.eks "global" i steden for "geo" vil det funke**
-
-```{r}
-g_c <- g_c %>%
-  left_join(pop, by = c("year" = "time"))
-rm(pop)
-```
-
-## TEST AV THIBIGA
-## Oki, nå fikk jeg denne til å kjøre. Dermed er det nå 10 variabler. Den 10. variabelen skal egentlig hete "pop", men den heter "population_total".
 ```{r}
 pop <- read_csv("data/countries-etc-datapoints/ddf--datapoints--population_total--by--geo--time.csv",
 col_types = cols(time = col_date(format = "%Y")))
@@ -228,32 +200,6 @@ rm(pop)
 
 # 13
 
-```{r}
-library(readr)
-gdp_pc <- read_csv("data/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv") %>% 
-left_join(g_c$pop) 
-names(g_c)
-View(ddf_datapoints_gdppercapita_us_inflation_adjusted_by_geo_time)
-```
-
-```{r}
-g_c <- g_c %>% 
-left_join(gdp_pc, by = c("country" = "geo", "year" = "time")) 
-```
-
-
-```{r}
-spec(gdp_pc)
-```
-
-```{r}
-g_c <- g_c %>% 
-  left_join(pop, by = c("country" = "geo", "year" = "time"))
-```
-
-
-## TEST av THIBIGA
-## Fikk denne til å kjøre. Men nå har vi 12 variabler i stedet for 9. Muligens forsvinner de variablene vi ikke trenger når vi rydder opp. 
 ```{r}
 gdp_pc <- read_csv("data/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv",
 col_types = cols(time = col_date(format = "%Y")))
