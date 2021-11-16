@@ -213,8 +213,9 @@ names(g_c)
 ```
 
 
-# 14 part 1
+# 14
 
+We create data called Tbl1 which includes data from every 5th year, from 1800 till 2015, including 2019. The function  "paste()" put together vectors by converting them into character. Meanwhile "parse_date()" converts the textual representation of R code into an internal form. 
 
 ```{r Selected data}
 Tbl1 <- paste(c(seq(1800, 2015, by = 5), 2019), 
@@ -222,35 +223,36 @@ Tbl1 <- paste(c(seq(1800, 2015, by = 5), 2019),
  parse_date(format = "%Y-%m-%d")
 ```
 
+We are again using *pipe* and this time we use "%in%" to identify "year" in *Tbl1". 
 
-```{r}
+```{r g_c_5}
 g_c_5 <- g_c %>% 
   filter(year %in% Tbl1) %>% 
   select(country, name, continent, year, lifeExp, pop, gdpPercap)
 ```
 
+We use "dim()" to give us the dimesion of the materix. In this case we have 8505 observations and 7 variables. 
 
-```{r}
+```{r Dimension}
 dim(g_c_5)
 ```
-# 14 part 2
 
-FY = "first year"
-
-```{r}
+```{r gdpPercap - First year}
 g_c_gdp_fy <- g_c_5 %>% 
   group_by(gdpPercap) %>% 
   summarise(min_year = min(year)) 
 ```
 
-```{r}
+We use "count" which give us a tibble.
+
+```{r Count}
 g_c_gdp_fy %>% 
   count(min_year = g_c_gdp_fy$min_year)
 ```
 
 # 15
 
-```{r}
+```{r Country - Longest gdp}
 g_c <- g_c %>% 
   filter(!is.na(gdpPercap)) %>% 
   group_by(country) %>% 
@@ -258,96 +260,101 @@ g_c <- g_c %>%
   arrange ((country))
 ```
 
+We use *61* since it is the highest recorded observation.
 
-```{r}
+```{r g_c_61}
 g_c_61 <- g_c %>% 
   filter(nr == 61)
 ```
 
-84 observations
+This give us 84 observations. 
 
 # 16
 
-```{r}
+We create a new dataset without NA observations called *l_min_y*.
+
+```{r l_min_y}
 l_min_y <- g_c_5 %>% 
 filter(!is.na(gdpPercap)) %>% 
 group_by(country) %>% 
 summarise(min_year = min(year))
 ```
 
-```{r}
+```{r Dimensjon l_min_y}
 dim(l_min_y)
 ```
 
-```{r}
+```{r my_gapminder_1960}
 l_min_y_60 <- l_min_y$country[l_min_y$min_year == "1960-01-01"]
 my_gapminder_1960 <- g_c_5 %>% 
 filter(country %in% l_min_y_60)
 ```
 
-```{r}
+```{r Dimensjon my_gapminder_1960}
 dim(my_gapminder_1960)
 ```
 
-```{r}
+```{r length my_gapminder_1960}
 length(unique(my_gapminder_1960$country))
 ```
-```{r}
+```{r m_v}
 (m_v <- my_gapminder_1960[is.na(my_gapminder_1960$gdpPercap) == TRUE,])
 ```
 
-```{r}
+```{r Number of NAs}
 paste("Number of NAs in my_gapminder_1960 is", dim(m_v)[1], sep = " ")
 ```
-
+There are 2754 numbers of NAs in this dataset. 
 
 # 17
 
-```{r}
+We use "ggplot()" to create graphs. 
+
+```{r ggplot 1960}
 my_gapminder_1960 %>% 
 filter(year <= "1960-01-01") %>% 
   ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,30000)) + theme(legend.position = "bottom")
 ```
 
-```{r}
+```{r ggplot 1980}
 my_gapminder_1960 %>% 
 filter(year <= "1980-01-01") %>% 
   ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,50000)) + theme(legend.position = "bottom")
 ```
 
-```{r}
+```{r ggplot 2000}
 my_gapminder_1960 %>% 
 filter(year <= "2000-01-01") %>% 
   ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,100000)) + theme(legend.position = "bottom")
 ```
 
-```{r}
+```{r ggplot 2019}
 my_gapminder_1960 %>% 
 filter(year <= "2019-01-01") %>% 
   ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,150000)) + theme(legend.position = "bottom")
 ```
 
 # 18
-
-```{r}
+We use again ggplot to create graphs but this time with "log()".  
+```{r log:ggplot 1960}
 my_gapminder_1960 %>% 
 filter(year <= "1960-01-01") %>% 
   ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,11)) + theme(legend.position = "bottom")
 ```
 
-```{r}
+```{r log:ggplot 1980}
 my_gapminder_1960 %>% 
 filter(year <= "1980-01-01") %>% 
   ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,11)) + theme(legend.position = "bottom")
 ```
 
-```{r}
+```{r log:ggplot 2000}
 my_gapminder_1960 %>% 
 filter(year <= "2000-01-01") %>% 
   ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,12)) + theme(legend.position = "bottom")
 ```
 
-```{r}
+```{r log:ggplot 2019}
 my_gapminder_1960 %>% 
 filter(year <= "2019-01-01") %>% 
   ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,12)) + theme(legend.position = "bottom")
@@ -355,9 +362,14 @@ filter(year <= "2019-01-01") %>%
 
 # 19
 
+We can see clear signs of development from 1959 to 2019. Several countries, especially countries in Africa and Asia, have become better at reporting. In addition, GDP has had a general growth and thus the average life expectancy in various countries has increased. 
+
 
 # 20
-
+We use the function "write.table()" to export a dataframe to a file.
+```{r Write.table}
 write.table(g_c, file="my_gapminder.csv", sep = ",")
-write.table(g_c_60, file="my_gapminder_red.csv", sep = ",")
+write.table(g_c_61, file="my_gapminder_red.csv", sep = ",")
+```
+
 
