@@ -5,7 +5,6 @@ output:
   pdf_document: default
   html_document: default 
   df_print: paged
-bibliography: references.bib
 ---
 
 ```{r Library}
