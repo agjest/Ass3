@@ -1,16 +1,14 @@
 ---
 title: "Assignment 3"
-author: Ingrid & Thibiga
+author: Ingrid-Liv Morkken  & Thibiga Kuddyar
 output: 
   pdf_document: default
   html_document: default 
   df_print: paged
-lang: no-NB 
+bibliography: references.bib
 ---
 
-bibliography: references.bib
-
-```{r - Library}
+```{r Library}
 library(tidyverse)
 library(readr)
 library(gapminder)
@@ -45,17 +43,17 @@ Australia and New Zealand is assigned to Asia.
 
 # 5 
 
-```{r - gc}
+```{r g_c}
 g_c <- read_csv("data/ddf--entities--geo--country.csv")
 print(g_c)
 ```
 
+
 By running the chunk above, only countries with code *aiso3166_1_aplha3* will be included thus the tibble will be named *g_c*.
- tibbelen navnet "g_c".
 
-**nederste må fikses, skjønner ikke hva som er feil**
+The chunk below creates new variables by using "mutate" and the "case-when" function allows to vectorize several statements simultaneous. 
 
-```{r}
+```{r Continents}
 g_c <- g_c %>%
   mutate(continent = case_when(
      world_4region == "asia" & un_sdg_region %in% c("un_australia_and_new_zealand", "un_oceania_exc_australia_and_new_zealand") ~ "Oceania",
@@ -69,17 +67,17 @@ g_c <- g_c %>%
 
 # 6a 
 
-```{r}
+```{r Number of country}
 length(unique(g_c$country))
 ```
 
-After filtrating the data from #5, are we left with 247 countries. 
+After filtrating the data from #5, are we left with 247 countries. This is done by using the function "lenght(unique())" which calculates the number of values in a vector.
 
 # 6b
 
-**sjekk faretrekant** 
+We are using *pipe* which will allows to forward a value into next function. Then we use "group_by()" to take an existing table and converts into grouped table. Finally, we summarise by reducing the dataframe by using "summarize()".
 
-```{r}
+```{r Countries & continent }
 g_c %>% 
   group_by(continent) %>% 
   summarise(countries = length(unique(country)))
@@ -93,7 +91,7 @@ There are now a number of:
 
 # 7
 
-```{r Country_Expectancy}
+```{r Life Expectancy}
 lifeExp <- read_csv(
   "data/countries-etc-datapoints/ddf--datapoints--life_expectancy_years--by--geo--time.csv", 
 col_types = cols(
@@ -112,22 +110,22 @@ names(
   )
 ```
 
-## skriv inn tekst her
+The chunk above shows how the variable "Life Expectancy" has been added to the dataset *g_c*. We have changed the format from *time* to *date* with %Y which gives a four-digit year.  
+
+
 
 # 8
 
-```{r - Info about LifeExp}
-length(
-  unique(
-    lifeExp$geo
-    ))
+```{r Infomation about LifeExp}
+length(unique(lifeExp$geo))
 ```
+By running the chunk above, it shows that there are 195 countries that have information about the life expectancy.  
 
-## skriv inn tekst her 
 
 # 9 
+We use pipe again and select the variables to be included in the in the reduced dataset by using "select()". Then we insert variables from *LifeExp* into the *g_c* by using "left_join()". We are using "rm()" to reduce enormous number of observations. 
 
-```{r}
+```{r Reduced g_c}
 g_c <- g_c %>% 
   select (
     country,
@@ -148,12 +146,11 @@ names(
 rm(lifeExp)
 ```
 
-## Skriv inn tekst her
-
-
 # 10  
 
-```{r}
+We creates a new dataset called "g-c-min" which shows the first observations of "LifeExp" in different countries. This time we use a new function called "table()" which create categorical representation of data. 
+
+```{r Minimum year}
 g_c_min <- g_c %>% 
   group_by(country) %>% 
   summarise(min_year = min(year))
@@ -164,7 +161,7 @@ The observation is that 186 countries has data on **life expectancy years** from
 
 # 11
 
-```{r}
+```{r Life expectancy data from 1950}
 g_c_min %>% 
 filter(min_year == "1950-01-01")
 ```
@@ -173,12 +170,14 @@ The nine countries that only have life expectancy data from 1950 are displayed i
 
 # 12 
 
-```{r}
+We create a new dataset called "pop" and then we insert the variables from that dataset to *g_c*.
+
+```{r Total population}
 pop <- read_csv("data/countries-etc-datapoints/ddf--datapoints--population_total--by--geo--time.csv",
 col_types = cols(time = col_date(format = "%Y")))
 ```
 
-```{r}
+```{r Left_join pop}
 g_c <- g_c %>% 
   left_join(pop, by = c("country" = "geo", "year" = "time"))
 rm(pop)
@@ -186,26 +185,30 @@ rm(pop)
 
 # 13
 
-```{r}
+We repeat the same operations as in task 12 in task 13, but we use a different file and the new dataset is called "gdp_pc".
+
+```{r gdp_pc}
 gdp_pc <- read_csv("data/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv",
 col_types = cols(time = col_date(format = "%Y")))
 ```
 
-```{r}
+```{r Left_join gdp_pc}
 g_c <- g_c %>% 
   left_join(gdp_pc, by = c("country" = "geo", "year" = "time"))
 rm(gdp_pc)
 ```
 
+In addition, we chagne the names of some of the variables in the *g_c* dataset by using "rename()".
 
-```{r}
+```{r Renaming}
 g_c <- g_c %>% 
   rename("lifeExp" = "life_expectancy_years") %>% 
   rename ("pop" = "population_total") %>% 
   rename ("gdpPercap" = "gdppercapita_us_inflation_adjusted" )
 ```
 
-```{r}
+The chunk below gives an overview of the names of the variables in the *g_c* dataset.
+```{r Name overview}
 names(g_c)
 ```
 
@@ -213,8 +216,8 @@ names(g_c)
 # 14 part 1
 
 
-```{r}
-Tabell1 <- paste(c(seq(1800, 2015, by = 5), 2019), 
+```{r Selected data}
+Tbl1 <- paste(c(seq(1800, 2015, by = 5), 2019), 
  "01-01", sep = "-" )  %>% 
  parse_date(format = "%Y-%m-%d")
 ```
@@ -222,7 +225,7 @@ Tabell1 <- paste(c(seq(1800, 2015, by = 5), 2019),
 
 ```{r}
 g_c_5 <- g_c %>% 
-  filter(year %in% Tabell1) %>% 
+  filter(year %in% Tbl1) %>% 
   select(country, name, continent, year, lifeExp, pop, gdpPercap)
 ```
 
