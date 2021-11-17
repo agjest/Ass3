@@ -2,8 +2,8 @@
 title: "Assignment 3"
 author: Ingrid-Liv Morkken  & Thibiga Kuddyar
 output: 
-  pdf_document: default
   html_document: default 
+  pdf_document: default
   df_print: paged
 ---
 
@@ -17,8 +17,10 @@ options(scipen
         = 999)
 ```
 
-# 1 
-The file ddf_concepts.cvs contains descriptions of a set of different variables including unemployment rate, adults with hiv, labour force participation, aid, causes of deaths, cell phones, cars, health factors, countries GDP etc. Each of the 600 variables further includes data. 
+# 1
+
+The file ddf_concepts.cvs contains descriptions of a set of different variables including unemployment rate, adults with hiv, labour force participation, aid, causes of deaths, cell phones, cars, health factors, countries GDP etc.
+Each of the 600 variables further includes data.
 
 # 2
 
@@ -26,31 +28,31 @@ The file ddf--entities--geo--country.csv contains information of all the countri
 
 # 3
 
-df--entities--geo--un_sdg_region.csv contains information about UN recognized regions. 
+df--entities--geo--un_sdg_region.csv contains information about UN recognized regions.
 
 # 4
+
 The gapminder dataset consist of 1704 rows and includes the following variables:
 
-- Country 
-- Continent 
-- Year
-- LifeExp
-- Pop
-- gdpPercap
+-   Country
+-   Continent
+-   Year
+-   LifeExp
+-   Pop
+-   gdpPercap
 
 Australia and New Zealand is assigned to Asia.
 
-# 5 
+# 5
 
 ```{r g_c}
 g_c <- read_csv("data/ddf--entities--geo--country.csv")
 print(g_c)
 ```
 
+By running the chunk above, only countries with code *aiso3166_1\_aplha3* will be included thus the tibble will be named *g_c*.
 
-By running the chunk above, only countries with code *aiso3166_1_aplha3* will be included thus the tibble will be named *g_c*.
-
-The chunk below creates new variables by using "mutate" and the "case-when" function allows to vectorize several statements simultaneous. 
+The chunk below creates new variables by using "mutate" and the "case-when" function allows to vectorize several statements simultaneous.
 
 ```{r Continents}
 g_c <- g_c %>%
@@ -64,29 +66,33 @@ g_c <- g_c %>%
  filter(!is.na(iso3166_1_alpha3))
 ```
 
-# 6a 
+# 6a
 
 ```{r Number of country}
 length(unique(g_c$country))
 ```
 
-After filtrating the data from #5, are we left with 247 countries. This is done by using the function "lenght(unique())" which calculates the number of values in a vector.
+After filtrating the data from #5, are we left with 247 countries.
+This is done by using the function "lenght(unique())" which calculates the number of values in a vector.
 
 # 6b
 
-We are using *pipe* which will allows to forward a value into next function. Then we use "group_by()" to take an existing table and converts into grouped table. Finally, we summarise by reducing the dataframe by using "summarize()".
+We are using *pipe* which will allows to forward a value into next function.
+Then we use "group_by()" to take an existing table and converts into grouped table.
+Finally, we summarise by reducing the dataframe by using "summarize()".
 
 ```{r Countries & continent }
 g_c %>% 
   group_by(continent) %>% 
   summarise(countries = length(unique(country)))
 ```
+
 There are now a number of:
 
-- 59 countries in Africa
-- 55 countries in Americas
-- 47 countries in Europe
-- 28 countries in Oceania
+-   59 countries in Africa
+-   55 countries in Americas
+-   47 countries in Europe
+-   28 countries in Oceania
 
 # 7
 
@@ -109,20 +115,22 @@ names(
   )
 ```
 
-The chunk above shows how the variable "Life Expectancy" has been added to the dataset *g_c*. We have changed the format from *time* to *date* with %Y which gives a four-digit year.  
-
-
+The chunk above shows how the variable "Life Expectancy" has been added to the dataset *g_c*.
+We have changed the format from *time* to *date* with %Y which gives a four-digit year.
 
 # 8
 
 ```{r Infomation about LifeExp}
 length(unique(lifeExp$geo))
 ```
-By running the chunk above, it shows that there are 195 countries that have information about the life expectancy.  
 
+By running the chunk above, it shows that there are 195 countries that have information about the life expectancy.
 
-# 9 
-We use pipe again and select the variables to be included in the in the reduced dataset by using "select()". Then we insert variables from *LifeExp* into the *g_c* by using "left_join()". We are using "rm()" to reduce enormous number of observations. 
+# 9
+
+We use pipe again and select the variables to be included in the in the reduced dataset by using "select()".
+Then we insert variables from *LifeExp* into the *g_c* by using "left_join()".
+We are using "rm()" to reduce enormous number of observations.
 
 ```{r Reduced g_c}
 g_c <- g_c %>% 
@@ -145,9 +153,10 @@ names(
 rm(lifeExp)
 ```
 
-# 10  
+# 10
 
-We creates a new dataset called "g-c-min" which shows the first observations of "LifeExp" in different countries. This time we use a new function called "table()" which create categorical representation of data. 
+We creates a new dataset called "g-c-min" which shows the first observations of "LifeExp" in different countries.
+This time we use a new function called "table()" which create categorical representation of data.
 
 ```{r Minimum year}
 g_c_min <- g_c %>% 
@@ -156,7 +165,7 @@ g_c_min <- g_c %>%
 table(g_c_min$min_year)
 ```
 
-The observation is that 186 countries has data on **life expectancy years** from 1800 whereas only nine countries has data on **life expectancy years** from 1950. 
+The observation is that 186 countries has data on **life expectancy years** from 1800 whereas only nine countries has data on **life expectancy years** from 1950.
 
 # 11
 
@@ -164,10 +173,10 @@ The observation is that 186 countries has data on **life expectancy years** from
 g_c_min %>% 
 filter(min_year == "1950-01-01")
 ```
- 
-The nine countries that only have life expectancy data from 1950 are displayed in the table above. 
 
-# 12 
+The nine countries that only have life expectancy data from 1950 are displayed in the table above.
+
+# 12
 
 We create a new dataset called "pop" and then we insert the variables from that dataset to *g_c*.
 
@@ -207,14 +216,16 @@ g_c <- g_c %>%
 ```
 
 The chunk below gives an overview of the names of the variables in the *g_c* dataset.
+
 ```{r Name overview}
 names(g_c)
 ```
 
-
 # 14
 
-We create data called Tbl1 which includes data from every 5th year, from 1800 till 2015, including 2019. The function  "paste()" put together vectors by converting them into character. Meanwhile "parse_date()" converts the textual representation of R code into an internal form. 
+We create data called Tbl1 which includes data from every 5th year, from 1800 till 2015, including 2019.
+The function "paste()" put together vectors by converting them into character.
+Meanwhile "parse_date()" converts the textual representation of R code into an internal form.
 
 ```{r Selected data}
 Tbl1 <- paste(c(seq(1800, 2015, by = 5), 2019), 
@@ -222,7 +233,7 @@ Tbl1 <- paste(c(seq(1800, 2015, by = 5), 2019),
  parse_date(format = "%Y-%m-%d")
 ```
 
-We are again using *pipe* and this time we use "%in%" to identify "year" in *Tbl1". 
+We are again using *pipe* and this time we use "%in%" to identify "year" in \*Tbl1".
 
 ```{r g_c_5}
 g_c_5 <- g_c %>% 
@@ -230,7 +241,8 @@ g_c_5 <- g_c %>%
   select(country, name, continent, year, lifeExp, pop, gdpPercap)
 ```
 
-We use "dim()" to give us the dimesion of the materix. In this case we have 8505 observations and 7 variables. 
+We use "dim()" to give us the dimesion of the materix.
+In this case we have 8505 observations and 7 variables.
 
 ```{r Dimension}
 dim(g_c_5)
@@ -266,7 +278,7 @@ g_c_61 <- g_c %>%
   filter(nr == 61)
 ```
 
-This give us 84 observations. 
+This give us 84 observations.
 
 # 16
 
@@ -296,6 +308,7 @@ dim(my_gapminder_1960)
 ```{r length my_gapminder_1960}
 length(unique(my_gapminder_1960$country))
 ```
+
 ```{r m_v}
 (m_v <- my_gapminder_1960[is.na(my_gapminder_1960$gdpPercap) == TRUE,])
 ```
@@ -303,11 +316,12 @@ length(unique(my_gapminder_1960$country))
 ```{r Number of NAs}
 paste("Number of NAs in my_gapminder_1960 is", dim(m_v)[1], sep = " ")
 ```
-There are 2754 numbers of NAs in this dataset. 
+
+There are 2754 numbers of NAs in this dataset.
 
 # 17
 
-We use "ggplot()" to create graphs. 
+We use "ggplot()" to create graphs.
 
 ```{r ggplot 1960}
 my_gapminder_1960 %>% 
@@ -334,7 +348,9 @@ filter(year <= "2019-01-01") %>%
 ```
 
 # 18
-We use again ggplot to create graphs but this time with "log()".  
+
+We use again ggplot to create graphs but this time with "log()".
+
 ```{r log:ggplot 1960}
 my_gapminder_1960 %>% 
 filter(year <= "1960-01-01") %>% 
@@ -361,14 +377,16 @@ filter(year <= "2019-01-01") %>%
 
 # 19
 
-We can see clear signs of development from 1959 to 2019. Several countries, especially countries in Africa and Asia, have become better at reporting. In addition, GDP has had a general growth and thus the average life expectancy in various countries has increased. 
-
+We can see clear signs of development from 1959 to 2019.
+Several countries, especially countries in Africa and Asia, have become better at reporting.
+In addition, GDP has had a general growth and thus the average life expectancy in various countries has increased.
 
 # 20
+
 We use the function "write.table()" to export a dataframe to a file.
+
 ```{r Write.table}
 write.table(g_c, file="my_gapminder.csv", sep = ",")
 write.table(g_c_61, file="my_gapminder_red.csv", sep = ",")
 ```
-
 
