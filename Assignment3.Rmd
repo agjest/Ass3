@@ -2,8 +2,8 @@
 title: "Assignment 3"
 author: Ingrid-Liv Morkken  & Thibiga Kuddyar
 output: 
-  html_document: default 
   pdf_document: default
+  html_document: default 
   df_print: paged
 ---
 
@@ -196,7 +196,11 @@ rm(pop)
 We repeat the same operations as in task 12 in task 13, but we use a different file and the new dataset is called "gdp_pc".
 
 ```{r gdp_pc}
-gdp_pc <- read_csv("data/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv",
+gdp_pc <- read_csv(
+  # triks for å unngå filnavn som går ut i margen og utenfor arket
+  paste0("data/countries-etc-datapoints/",
+  "ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv"
+  ),
 col_types = cols(time = col_date(format = "%Y")))
 ```
 
@@ -324,27 +328,40 @@ There are 2754 numbers of NAs in this dataset.
 We use "ggplot()" to create graphs.
 
 ```{r ggplot 1960}
+# Formaterer koden så den er lettere å lese
 my_gapminder_1960 %>% 
-filter(year <= "1960-01-01") %>% 
-  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,30000)) + theme(legend.position = "bottom")
+filter(year == "1960-01-01") %>% 
+  ggplot(
+    mapping = aes(x = gdpPercap, 
+                  y = lifeExp, 
+                  size = pop, 
+                  colour = continent)
+    ) + 
+  geom_point() + 
+  coord_cartesian(ylim = c(20, 90), xlim = c(0,110000)) + 
+  theme(legend.position = "bottom")
 ```
 
 ```{r ggplot 1980}
-my_gapminder_1960 %>% 
-filter(year <= "1980-01-01") %>% 
-  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,50000)) + theme(legend.position = "bottom")
+# kode stylet vha. add-in Styler > Style selection
+my_gapminder_1960 %>%
+  filter(year == "1980-01-01") %>%
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) +
+  geom_point() +
+  coord_cartesian(ylim = c(20, 90), xlim = c(0, 110000)) +
+  theme(legend.position = "bottom")
 ```
 
 ```{r ggplot 2000}
 my_gapminder_1960 %>% 
-filter(year <= "2000-01-01") %>% 
-  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,100000)) + theme(legend.position = "bottom")
+filter(year == "2000-01-01") %>% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,110000)) + theme(legend.position = "bottom")
 ```
 
 ```{r ggplot 2019}
 my_gapminder_1960 %>% 
-filter(year <= "2019-01-01") %>% 
-  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,150000)) + theme(legend.position = "bottom")
+filter(year == "2019-01-01") %>% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(0,110000)) + theme(legend.position = "bottom")
 ```
 
 # 18
@@ -353,25 +370,25 @@ We use again ggplot to create graphs but this time with "log()".
 
 ```{r log:ggplot 1960}
 my_gapminder_1960 %>% 
-filter(year <= "1960-01-01") %>% 
-  ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,11)) + theme(legend.position = "bottom")
+filter(year == "1960-01-01") %>% 
+  ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,12)) + theme(legend.position = "bottom")
 ```
 
 ```{r log:ggplot 1980}
 my_gapminder_1960 %>% 
-filter(year <= "1980-01-01") %>% 
-  ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,11)) + theme(legend.position = "bottom")
+filter(year == "1980-01-01") %>% 
+  ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,12)) + theme(legend.position = "bottom")
 ```
 
 ```{r log:ggplot 2000}
 my_gapminder_1960 %>% 
-filter(year <= "2000-01-01") %>% 
+filter(year == "2000-01-01") %>% 
   ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,12)) + theme(legend.position = "bottom")
 ```
 
 ```{r log:ggplot 2019}
 my_gapminder_1960 %>% 
-filter(year <= "2019-01-01") %>% 
+filter(year == "2019-01-01") %>% 
   ggplot(mapping = aes(x = log(gdpPercap), y = lifeExp, size = pop, colour = continent)) + geom_point() + coord_cartesian(ylim = c(20, 90), xlim = c(4,12)) + theme(legend.position = "bottom")
 ```
 
@@ -390,3 +407,6 @@ write.table(g_c, file="my_gapminder.csv", sep = ",")
 write.table(g_c_61, file="my_gapminder_red.csv", sep = ",")
 ```
 
+```{r, ech = FALSE}
+#siste
+```
